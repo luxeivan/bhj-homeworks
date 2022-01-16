@@ -1,16 +1,17 @@
 let dead = document.getElementById("dead"),
     lost = document.getElementById("lost");
+function finishGame(text) {
+    alert(text);
+    dead.textContent = 0;
+    lost.textContent = 0;
+}
 function clickFun() {
     this.className == "hole hole_has-mole" ? dead.textContent = Number(dead.textContent) + 1 : lost.textContent = Number(lost.textContent) + 1;
     if (dead.textContent == 10) {
-        alert("Вы выйграли!");
-        dead.textContent = 0;
-        lost.textContent = 0;
+        finishGame("Вы выйграли!")
     }
     if (lost.textContent == 5) {
-        alert("Вы проиграли!");
-        dead.textContent = 0;
-        lost.textContent = 0;
+        finishGame("Вы проиграли!")
     }
 };
 for (let i = 1; i < 10; i++) {
