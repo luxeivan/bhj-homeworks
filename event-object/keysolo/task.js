@@ -4,6 +4,7 @@ class Game {
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
+    this.statusTimer = container.querySelector('.status__timer');
 
     this.reset();
 
@@ -24,9 +25,9 @@ class Game {
       В случае правильного ввода слова вызываем this.success()
       При неправильном вводе символа - this.fail();
      */
-      document.addEventListener('keypress', (event) => {
-       this.currentSymbol.textContent.toLowerCase() == event.key.toLowerCase() ? this.success() : this.fail();
-      });
+    document.addEventListener('keypress', (event) => {
+      this.currentSymbol.textContent.toLowerCase() == event.key.toLowerCase() ? this.success() : this.fail();
+    });
   }
 
   success() {
@@ -55,32 +56,45 @@ class Game {
     const word = this.getWord();
 
     this.renderWord(word);
+
+    clearInterval(this.interval);
+    this.timerTime = this.wordLength;
+    this.statusTimer.textContent = this.wordLength;
+    this.interval = setInterval(() => {
+      this.timerTime -= 1;
+      this.statusTimer.textContent = this.timerTime;      
+      if(!this.timerTime){
+        clearInterval(this.interval);
+        this.fail();
+      }
+    }, 1000);
   }
 
   getWord() {
     const words = [
-        'bob',
-        'awesome',
-        'netology',
-        'hello',
-        'kitty',
-        'rock',
-        'youtube',
-        'popcorn',
-        'cinema',
-        'love',
-        'javascript'
-      ],
+      'bob',
+      'awesome',
+      'netology',
+      'hello',
+      'kitty',
+      'rock',
+      'youtube',
+      'popcorn',
+      'cinema',
+      'love',
+      'javascript'
+    ],
       index = Math.floor(Math.random() * words.length);
 
     return words[index];
   }
 
   renderWord(word) {
+    this.wordLength = word.length;
     const html = [...word]
       .map(
         (s, i) =>
-          `<span class="symbol ${i === 0 ? 'symbol_current': ''}">${s}</span>`
+          `<span class="symbol ${i === 0 ? 'symbol_current' : ''}">${s}</span>`
       )
       .join('');
     this.wordElement.innerHTML = html;
