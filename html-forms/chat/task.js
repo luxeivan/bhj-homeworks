@@ -23,6 +23,7 @@ class Chat {
 </div>
 `;
         this.chatInput.value = '';
+        messages.scrollTop = messages.scrollHeight;
         this.sendRobot();
     }
 

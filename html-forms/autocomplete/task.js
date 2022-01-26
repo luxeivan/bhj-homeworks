@@ -81,12 +81,15 @@ class Autocomplete {
         value: 'Содержимое атрибута value'
       }
     */
-    return [
-      {
-        text: 'Чубакка',
-        value: '1'
+      let arrayOption = this.input.querySelectorAll('option');
+      let arrayWord = [];
+      for(const option of arrayOption){
+        arrayWord.push({text: option.textContent, value: option.getAttribute('value')});
       }
-    ];
+      arrayWord = arrayWord.filter(item => {
+        return item.text.toLowerCase().includes(text.toLowerCase());
+      });
+    return arrayWord;
   }
 }
 
